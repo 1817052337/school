@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+
+    <!-- 接口绑定的映射路径 -->
+	<mappers>
+		<mapper class="com.rj.bd.admin.dao.AdminMapper"/>
+		
+	</mappers>
+	
+</configuration>  
