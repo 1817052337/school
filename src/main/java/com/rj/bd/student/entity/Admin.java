@@ -7,12 +7,12 @@ package com.rj.bd.admin.entity;
  */
 public class Admin {
 
-	public String a_id;
+	public int a_id;
 	public String a_name;
-	public String getA_id() {
+	public int getA_id() {
 		return a_id;
 	}
-	public void setA_id(String a_id) {
+	public void setA_id(int a_id) {
 		this.a_id = a_id;
 	}
 	public String getA_name() {

@@ -30,7 +30,7 @@ public class AdminController {
 		request.setAttribute("list", list);// 将带有数据的list传递给前台的查询展示页面
 
 		for (Admin Admin : list) {
-			System.out.println(Admin.getT_id() + "\t" + Admin.getT_name());
+			System.out.println(Admin.getA_id() + "\t" + Admin.getA_name());
 		}
 
 		return "table/Admin_list";
@@ -45,7 +45,8 @@ public class AdminController {
 	@RequestMapping("/add")
 	public String add(Admin u) {
 		System.out.println("-------add()------》");
-		u.setT_id(0);
+//		u.setA_id(0);
+		System.out.println(u);
 		AdminService.save(u);
 		return "redirect:/table/query.action";
 	}
@@ -62,7 +63,7 @@ public class AdminController {
 	public String edit(Model model,Admin t) {
 		System.out.println("-------edit()------》");
 		AdminService.update(t);
-		Admin Admin = AdminService.findById(t.getT_id());
+		Admin Admin = AdminService.findById(t.getA_id()+"");
 		model.addAttribute("table",Admin);
 		return "redirect:/table/query.action";
 	}
