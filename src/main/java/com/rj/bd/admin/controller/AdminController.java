@@ -1,14 +1,14 @@
 package com.rj.bd.admin.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.alibaba.fastjson.JSON;
 import com.rj.bd.admin.entity.Admin;
 import com.rj.bd.admin.service.IAdminService;
 /**
@@ -21,56 +21,20 @@ public class AdminController {
 	@Autowired 
 	public IAdminService AdminService;
 
-	@RequestMapping("/query")
-	public String queryAdmin(HttpServletRequest request) {
-		System.out.println("AdminController:queryAdmin()");
-		List<Admin> list = AdminService.findAll();
-		System.out.println("--------------->" + list.size());
-
-		request.setAttribute("list", list);// 将带有数据的list传递给前台的查询展示页面
-
-		for (Admin Admin : list) {
-			System.out.println(Admin.getA_id() + "\t" + Admin.getA_name());
-		}
-
-		return "table/Admin_list";
-	}
-
-	@RequestMapping("/addPage")
-	public String addPage() {
-		System.out.println("-------进入Admin模块的添加页面------》");
-		return "table/Admin_add";
-	}
-
-	@RequestMapping("/add")
-	public String add(Admin u) {
-		System.out.println("-------add()------》");
-//		u.setA_id(0);
-		System.out.println(u);
-		AdminService.save(u);
-		return "redirect:/table/query.action";
-	}
-	@RequestMapping("/editPage")
-	public String editPage(String id,Model model) {
-		System.out.println("-------进入Admin模块的修改页面------》");
-		Admin Admin = AdminService.findById(id);
-		System.out.println(Admin);
-		model.addAttribute("table", Admin);
-		return "table/Admin_edit";
-	}
-	
-	@RequestMapping("/edit")
-	public String edit(Model model,Admin t) {
-		System.out.println("-------edit()------》");
-		AdminService.update(t);
-		Admin Admin = AdminService.findById(t.getA_id()+"");
-		model.addAttribute("table",Admin);
-		return "redirect:/table/query.action";
-	}
-	@RequestMapping("/delete")
-	public String delete(String id) {
-		System.out.println("-------delete()------》"+id);
-		AdminService.deleteById(id);
-		return "redirect:/table/query.action";
-	}
+	@RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST}, produces = "text/html;charset=UTF-8")
+    public String login(String account) {
+        Admin admin = AdminService.login(account);
+        DTO dto = new DTO();
+        if (admin == null) {
+            dto.code = "-1";
+            dto.msg = "没有该用户";
+        } else {
+            //把用户登录信息放进Session
+            Map<String, Object> loginInfo = new HashMap<>();
+            loginInfo.put("a_id", admin.getA_id());
+            String sessionId = JavaWebToken.createJavaWebToken(loginInfo);
+            dto.data = sessionId;
+        }
+        return JSON.toJSONString(admin);
+    }
 }
