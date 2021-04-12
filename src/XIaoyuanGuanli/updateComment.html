@@ -1,0 +1,142 @@
+<!--添加管理界面-->
+
+<!doctype html>
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>添加</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+		<link rel="apple-touch-icon-precomposed" href="images/icon/icon.png">
+		<link rel="shortcut icon" href="images/icon/favicon.ico">
+		<script src="js/jquery-2.1.4.min.js"></script>
+	</head>
+
+	<body class="user-select">
+		<section class="container-fluid">
+			<header>
+				<nav class="navbar navbar-default navbar-fixed-top">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">切换导航</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+							<a class="navbar-brand" href="/">兼职校园信息管理系统</a>
+						</div>
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav navbar-right">
+								<li>
+									<a href="login.html" onClick="if(!confirm('是否确认退出？'))return false;">退出登录</a>
+								</li>
+								<li>
+									<a data-toggle="modal" data-target="#WeChat">帮助</a>
+								</li>
+							</ul>
+							<form action="" method="post" class="navbar-form navbar-right" role="search">
+								<div class="input-group">
+									<input type="text" class="form-control" autocomplete="off" placeholder="键入关键字搜索" maxlength="15">
+									<span class="input-group-btn">
+					              		<button class="btn btn-default" type="submit">搜索</button>
+					                </span>
+								</div>
+							</form>
+						</div>
+					</div>
+				</nav>
+			</header>
+			<div class="row">
+				<aside class="col-sm-3 col-md-2 col-lg-2 sidebar">
+					<ul class="nav nav-sidebar">
+						<li>
+							<a href="index.html">报告</a>
+						</li>
+					</ul>
+					<ul class="nav nav-sidebar">
+						<li class="active">
+							<a href="article.html">职位管理</a>
+						</li>
+						<li>
+							<a href="notice.html">学生管理</a>
+						</li>
+						<li>
+							<a href="QiYe.html">企业管理</a>
+						</li>
+						<li>
+							<a href="LiuYan.html" data-toggle="tooltip" data-placement="bottom">留言</a>
+						</li>
+						<li>
+							<a href="GuanLiYongHu.html">管理用户</a>
+						</li>
+					</ul>
+				</aside>
+				<div class="col-sm-9 col-sm-offset-3 col-md-10 col-lg-10 col-md-offset-2 main" id="main">
+
+					<!-- 新 -->
+					<div id="container">
+						<div class="row">
+							<div class="col-lg-2">
+								<h1 class="page-header">添加管理 <span class="badge"></span></h1>
+							</div>
+						</div>
+					</div>
+					<form class="form-horizontal" role="form">
+						<fieldset>
+							<div class="form-group">
+								<div class="col-lg-2"></div>
+								<input type="hidden" name="id" value="${user.id}" />
+								<label class="col-sm-2 control-label" for="ds_host">主机名</label>
+								<div class="col-sm-4">
+									<input class="form-control" id="ds_host" type="text" placeholder="192.168.1.161" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-2"></div>
+								<label class="col-sm-2 control-label" for="ds_username">用户名</label>
+								<div class="col-sm-4">
+									<input class="form-control" id="ds_username" type="text" placeholder="root" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-lg-2"></div>
+								<label class="col-sm-2 control-label" for="zhan"></label>
+								<div class="col-sm-4">
+									<button type="submit" class="btn btn-default">登录</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+
+				</div>
+			</div>
+		</section>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/admin-scripts.js"></script>
+
+		<script>
+			//是否确认删除
+			$(function() {
+				$("#main table tbody tr td a").click(function() {
+					var name = $(this);
+					var id = name.attr("rel"); //对应id  
+					if(event.srcElement.outerText == "删除") {
+						if(window.confirm("此操作不可逆，是否确认？")) {
+							$.ajax({
+								type: "POST",
+								url: "/Article/delete",
+								data: "id=" + id,
+								cache: false, //不缓存此页面   
+								success: function(data) {
+									window.location.reload();
+								}
+							});
+						};
+					};
+				});
+			});
+		</script>
+	</body>
+
+</html>
