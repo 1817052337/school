@@ -1,7 +1,13 @@
 package com.rj.bd.admin.service;
 
+import java.util.Map;
+
 public interface IAdminService {
 
-	void login(String a_id, String a_name);
+	Map<String, Object> queryLogin(String userName, String password);
+
+	void saveToken(String token);
+
+
 
 }

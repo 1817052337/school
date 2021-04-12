@@ -1,5 +1,8 @@
 package com.rj.bd.admin.dao;
 
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +13,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("AdminMapper")
 public interface AdminMapper {
-	@Select("select * from")
-	void login(String a_id,String a_name);
+		
+	@Select("select * from admin where a_username=#{userName} and a_password=#{password}")
+	public Map<String, Object> queryLogin(String userName, String password);
+	
+	@Insert("insert into set(t_id,t_token) values (0,#{t_token})")
+	public void saveToken(String token);
 }

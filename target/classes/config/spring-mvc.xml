@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	   xmlns:p="http://www.springframework.org/schema/p" 
-	   xmlns:mvc="http://www.springframework.org/schema/mvc" 
-	   xmlns:context="http://www.springframework.org/schema/context" 
-	   xsi:schemaLocation="  
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="  
     http://www.springframework.org/schema/beans   
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
     http://www.springframework.org/schema/context  
@@ -14,23 +12,23 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
-	
-	<!-- 1.开启注解/注解驱动 -->
+
+	<!-- 开启注解/注解驱动 -->
 	<mvc:annotation-driven />
+	<mvc:default-servlet-handler />
 	<!-- 2.自动注解扫描包 -->
-	<context:component-scan base-package="com.rj.bd" />
-	
-<!-- 3.定义跳转的文件的前后缀 ，视图模式配置-->
-<!-- 	<bean id="viewResolver"   class="org.springframework.web.servlet.view.InternalResourceViewResolver"> -->
-<!-- 		<!-- 这里的配置我的理解是自动给后面action的方法return的字符串加上前缀和后缀，变成一个 可用的url地址 --> -->
-<!-- 		<property name="prefix" value="/WEB-INF/views/" /> -->
-<!-- 		<property name="suffix" value=".jsp" /> -->
-<!-- 	</bean> -->
-	
+	<context:component-scan base-package="com.rj.bd">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+
 	<!-- 注册freemarker配置类 -->
-	<bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-		<!-- ftl模版文件路径  -->
-		<property name="templateLoaderPath" value="/WEB-INF/ftls/user/"></property>
+	<bean id="freeMarkerConfigurer"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<!-- ftl模版文件路径 -->
+		<property name="templateLoaderPath" value="/WEB-INF/ftls/student/"></property>
 		<!-- 页面编码 -->
 		<property name="defaultEncoding" value="utf-8" />
 		<property name="freemarkerSettings">
@@ -46,29 +44,35 @@
 			</props>
 		</property>
 	</bean>
-	
+
 	<!-- 注册freemarker视图解析器 -->
-	<bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+	<bean id="freeMarkerViewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 		<property name="order" value="0" />
-        <!-- 开启模版缓存 -->
+		<!-- 开启模版缓存 -->
 		<property name="cache" value="true" />
 		<!-- 上面路径已经配了，这里就不用配啦 -->
 		<property name="prefix" value="" />
 		<!-- 配置文件后缀 -->
 		<property name="suffix" value=".ftl" />
 		<property name="contentType" value="text/html;charset=UTF-8" />
-    <!-- 是否允许session属性覆盖模型数据,默认false -->
+		<!-- 是否允许session属性覆盖模型数据,默认false -->
 		<property name="allowSessionOverride" value="false" />
-    <!-- 是否允许request属性覆盖模型数据,默认false -->
+		<!-- 是否允许request属性覆盖模型数据,默认false -->
 		<property name="allowRequestOverride" value="false" />
-    <!-- 开启spring提供的宏帮助(macro) -->
+		<!-- 开启spring提供的宏帮助(macro) -->
 		<property name="exposeSpringMacroHelpers" value="true" />
-    <!-- 添加request attributes属性到ModelAndView中 -->
+		<!-- 添加request attributes属性到ModelAndView中 -->
 		<property name="exposeRequestAttributes" value="true" />
-    <!-- 添加session attributes属性到ModelAndView中 -->
+		<!-- 添加session attributes属性到ModelAndView中 -->
 		<property name="exposeSessionAttributes" value="true" />
 	</bean>
-	
-	
-	
-	</beans>
+	<!-- SpringMVC上传文件时，需要配置CommonsMultipartResolver处理器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- 指定所上传文件的总大小不能超过5M。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<!-- <property name="maxUploadSize" value="-1" /> -->
+		<property name="maxUploadSize" value="5242880"></property>
+	</bean>
+</beans>

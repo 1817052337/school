@@ -1,63 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="  
-    http://www.springframework.org/schema/beans   
-    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
-    http://www.springframework.org/schema/context  
-    http://www.springframework.org/schema/context/spring-context-3.0.xsd  
-    http://www.springframework.org/schema/mvc  
-    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
-    http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+	<context:component-scan base-package="com.rj.bd">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
 	<!-- 配置数据库连接池 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${jdbc.driver}"/>
-        <property name="jdbcUrl" value="${jdbc.url}"/>
-        <property name="user" value="${jdbc.username}"/>
-        <property name="password" value="${jdbc.password}"/>
-    </bean>
-
-	<!--Spring框架整合Mybatis: 1)加载数据源 2)将实体类的映射资源文件即是**Mapper.xml加载过来 或者是绑定接口 -->
-	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
-         <property name="dataSource" ref="dataSource"/>
-         <property name="configLocation" value="classpath:mybatis-config.xml"/>
-         <property name="globalConfig" ref="globalConfig"></property>
-         <!-- 配置插件 -->
-        <property name="plugins">
-            <list>
-                <!-- 分页插件 -->
-                <bean class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
-                   <property name="countSqlParser" ref="countSqlParser"/>
-                </bean>
-                <!-- 输出每条SQL语句及其执行时间，生产环境不建议使用该插件 -->
-				 <bean class="com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor">
-				        <property name="format" value="true"/><!-- 格式化SQL语句 -->
-				        <property name="maxTime" value="1000"/><!-- sql执行时间超过value值就会停止执行，单位是毫秒 -->
-				 </bean>
-            </list>
-        </property>
-    </bean>
-    
-	<!-- 6.MP的分页优化 -->
-	<bean id="countSqlParser" class="com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize">
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
 	</bean>
 
-	<!-- 通过mybatis整合Spring的包中的MapperScannerConfigure实现扫描某一路径下的绑定的接口 和生成代理类 -->
+	<!--Spring框架整合Mybatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:config/mybatis-config.xml" />
+		<!-- 配置插件 -->
+		<property name="plugins">
+			<list>
+				<!-- 分页插件 -->
+				<bean
+					class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor">
+					<property name="countSqlParser" ref="countSqlParser" />
+				</bean>
+				<!-- 输出每条SQL语句及其执行时间，生产环境不建议使用该插件 -->
+				<bean
+					class="com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor">
+					<property name="format" value="true" /><!-- 格式化SQL语句 -->
+					<property name="maxTime" value="1000" /><!-- sql执行时间超过value值就会停止执行，单位是毫秒 -->
+				</bean>
+			</list>
+		</property>
+	</bean>
+	<!-- MP的分页优化 -->
+	<bean id="countSqlParser"
+		class="com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize">
+	</bean>
+	<!-- mybatis自动扫描加载Sql映射文件/接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.rj.bd.*.dao"></property>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
 
-	<!-- 4. 事务管理 : DataSourceTransactionManager dataSource:引用上面定义的数据源 -->
-	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<!-- 事务管理 : DataSourceTransactionManager dataSource:引用上面定义的数据源 -->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 
-	<!-- 5. 使用声明式事务 transaction-manager：引用上面定义的事务管理器 -->
+	<!-- 使用声明式事务 transaction-manager：引用上面定义的事务管理器 -->
 	<tx:annotation-driven transaction-manager="txManager" />
 
 
