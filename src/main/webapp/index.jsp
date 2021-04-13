@@ -8,6 +8,6 @@
 </head>
 <body>
 <a  href="<%=request.getContextPath()%>/student/query">Student模块的FK查询</a>
-
+<a  href="<%=request.getContextPath()%>/position/query">position模块的FK查询</a>
 </body>
 </html>

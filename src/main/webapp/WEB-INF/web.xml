@@ -36,7 +36,10 @@
 		<!-- 此处可以可以配置成*.do，对应struts的后缀习惯 -->
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
+<servlet-mapping>    <!-- 让项目中的.js文件不会被Springmvc的DispatcherServlet给拦截分发 -->
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.js</url-pattern>
+</servlet-mapping>
 	<!-- 解决工程编码过滤器 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>

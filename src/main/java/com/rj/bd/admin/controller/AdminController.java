@@ -29,11 +29,6 @@ public class AdminController {
 	@Autowired
 	public IAdminService adminService;
 	
-	@RequestMapping("/ceshi")
-	public void ceshi() {
-		System.out.println("测试路径");
-	}
-	
 	@ResponseBody
 	@RequestMapping("/login")
 	public void login(HttpServletRequest request,HttpServletResponse response) throws JsonGenerationException, JsonMappingException, IOException, ClassNotFoundException, SQLException
