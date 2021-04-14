@@ -29,4 +29,7 @@ public interface IStudentService {
 
 	//根据ID删除
 	public void deleteById(String s_id);
+
+	//删除student表id
+	public void deleteSById(String s_id);
 }

@@ -39,8 +39,14 @@ public interface StudentMapper {
 	
 	
 	//删除
-	@Delete("delete from student where s_id=#{s_id}")
+	@Delete("delete from position where s_id=#{s_id}")
 	public void deleteById(String id);
+	
+	//删除student表
+	@Delete("delete from student where s_id=#{s_id}")
+	public void deleteSById(String id);
+	
+	
 	
 	//查询所有
 	@Select("  select * from student")

@@ -2,6 +2,7 @@ package com.rj.bd.admin.service;
 
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +15,7 @@ public class AdminServiceImpl implements IAdminService {
 	@Autowired
 	private AdminMapper AdminMapper;
 
-	public Map<String, Object> queryLogin(String userName, String password) {
+	public Map<String, Object> queryLogin(@Param("userName")String userName, @Param("password")String password) {
 		
 		return AdminMapper.queryLogin(userName,password);
 	}

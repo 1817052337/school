@@ -25,9 +25,8 @@ public class PositionServiceImpl implements IPositionService {
 	}
 	
 	//保存
-
-	public void save(Student stu) {
-		positionMapper.save(stu);
+	public void save(Position po) {
+		positionMapper.save(po);
 	}
 	
 	

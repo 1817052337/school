@@ -46,11 +46,17 @@ public class StudentServiceImpl implements IStudentService {
 		
 		
 	}
-
+	//删除student表ID
+	public void deleteSById(String s_id) {
+		studentMapper.deleteSById(s_id);
+		
+	}
 	//查询所有
 	public List<Student> queryAll() {
 		return studentMapper.queryAll();
 	}
+
+	
 
 	
 

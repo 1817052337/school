@@ -20,9 +20,10 @@ public interface IPositionService {
 	public List<Position>  queryAll();
 	
 	
-	//保存
-	public void save(Student stu);
+	//保存添加页面的值
+	public void save(Position po);
 
+	
 	//根据ID查询
 	public List<Student> queryById(int s_id);
 

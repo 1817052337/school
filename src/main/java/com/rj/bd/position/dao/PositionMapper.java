@@ -20,8 +20,8 @@ import com.rj.bd.student.entity.Student;
 // 等价的代码：<bean id="StudentMapper" class="代理类(studentMapperProxy)"/>
 public interface PositionMapper {
 
-	//查询全部数据
-	@Select("  select * from position   ")
+	//查询      FK   全部数据
+	@Select("  select * from position")
 	public List<Position> fiandAll();
 
 	
@@ -32,10 +32,11 @@ public interface PositionMapper {
 	
 	
 	
-	//添加
-	@Insert("insert into student (s_id,s_name,s_school,s_age,s_sex,s_phone,s_address) values (#{s_id},#{s_name}"
-			+ ",#{s_school},#{s_age},#{s_sex},#{s_phone},#{s_address})")
-	public void save(Student stu);
+	//添加页面的值
+	@Insert("insert into position (p_id,p_name,p_nature,p_strattime,p_review,e_id,s_id,c_id) values (#{s_id},#{p_name}"
+			+ ",#{p_nature},#{p_strattime},#{p_review},#{enterprise.e_id},#{student.s_id},#{category.c_id})")
+	public void save(Position po);
+	
 
 	//根据ID查询
 	@Select("select * from student where s_id=#{s_id}")

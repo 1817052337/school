@@ -2,28 +2,21 @@ package com.rj.bd.student.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rj.bd.student.entity.Student;
 import com.rj.bd.student.service.IStudentService;
 import com.rj.bd.utils.HttpServletUtils;
 import com.rj.bd.utils.JsonUtils;
-
-
-
 
 /**
  * @desc Student模块的控制器
@@ -112,6 +105,7 @@ public class StudentController {
 	 String s_sex = request.getParameter("s_sex");
 	 String s_phone =request.getParameter("s_phone");
 	 String s_address = request.getParameter("s_address");
+	 
 	stu.setS_name(s_name);
 	stu.setS_school(s_school);
 	stu.setS_age(Integer.parseInt(s_age));
@@ -136,7 +130,7 @@ public class StudentController {
 	 */
 	@RequestMapping("/editPage")
 	
-		public void editPage(HttpServletRequest request,@PathVariable String s_id) throws IOException{
+		public void editPage(HttpServletRequest request, String s_id) throws IOException{
 		
 		System.out.println("==============进入修改页面=============");
 		
@@ -174,17 +168,47 @@ public class StudentController {
 			System.out.println("==============保存修改=============");
 			
 			Map<String, Object> json = new HashMap<String, Object>();
+			String s_id = request.getParameter("student.s_id");
+			String s_name = request.getParameter("student.s_name");
+			String s_school = request.getParameter("student.s_school");
+			String s_age = request.getParameter("student.s_age");
+			String s_sex = request.getParameter("student.s_sex");
+			String s_phone = request.getParameter("student.s_phone");
+			String s_address = request.getParameter("student.s_address");
 			
-			String s_name = request.getParameter("s_name");
-			String s_school = request.getParameter("s_school");
-			String s_age = request.getParameter("s_age");
-			String s_sex = request.getParameter("s_sex");
-			String s_phone = request.getParameter("s_phone");
-			String s_address = request.getParameter("s_address");
 			
+			
+			
+			
+			if (s_name==null||s_name.equals("")) {
+				json.put("code", "-1");
+				json.put("msg", "请输入姓名");
+			}
+			if (s_school==null||s_school.equals("")) {
+				json.put("code", "-1");
+				json.put("msg", "请输入电话");
+			}
+			if (s_age==null||s_age.equals("")) {
+				json.put("code", "-1");
+				json.put("msg", "请输入地址");
+			}
+			if (s_sex==null||s_sex.equals("")) {
+				json.put("code", "-1");
+				json.put("msg", "请输入备注");
+			}
+			
+			if (s_phone==null||s_phone.equals("")) {
+				json.put("code", "-1");
+				json.put("msg", "请输入地址");
+			}
+			if (s_address==null||s_address.equals("")) {
+				json.put("code", "-1");
+				json.put("msg", "请输入备注");
+			}
 		
 			
 			Student stu = new Student();
+			stu.setS_id(Integer.parseInt(s_id));
 			stu.setS_name(s_name);
 			stu.setS_school(s_school);
 			stu.setS_age(Integer.parseInt(s_age));
@@ -220,7 +244,14 @@ public class StudentController {
 				return;
 			}
 			
+			
 			studentService.deleteById(s_id);
+			System.out.println("zhix1");
+			
+			studentService.deleteSById(s_id);
+			
+			
+			System.out.println("zhix2");
 			JsonUtils.sendJson(writer, 200, "请求成功", null);
 			return;
 			

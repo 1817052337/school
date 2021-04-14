@@ -8,8 +8,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.request.ServletWebRequest;
 
 public class HttpServletUtils {
+	
+	public static HttpServletResponse getResponse(){
+		HttpServletResponse response = ((ServletWebRequest)RequestContextHolder.getRequestAttributes()).getResponse();
+		return response;
+		
+	}
 	
 	public static HttpServletRequest getrequest() {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
