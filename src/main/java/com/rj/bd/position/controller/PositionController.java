@@ -7,15 +7,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rj.bd.position.entity.Position;
 import com.rj.bd.position.service.IPositionService;
+import com.rj.bd.student.entity.Student;
 import com.rj.bd.utils.HttpServletUtils;
 import com.rj.bd.utils.JsonUtils;
 
@@ -30,35 +33,36 @@ import com.rj.bd.utils.JsonUtils;
 @RequestMapping("/position")
 public class PositionController {
 	
-	@Autowired 
+	@Autowired //自动装配
 	public IPositionService positionService;
-	
 	
 	//查询全部
 	@RequestMapping("/query")
-	public void queryStuden(HttpServletRequest request) throws IOException{
+	public void queryPosition(HttpServletRequest request) throws IOException{
 		
-		System.out.println("=========开始查询全部=========");
+		System.out.println("=========queryPosition开始查询全部=========");
 		
-		PrintWriter writer=HttpServletUtils.getHttpServletWriter();
 		
+		PrintWriter writer = HttpServletUtils.getHttpServletWriter();
 		try {
+			//查询实体类的数据
 			List<Position> list = positionService.queryAll();
-			if(list == null || list.size() == 0){
-				JsonUtils.sendJson(writer, -1, "暂无数据", null);
-				return;
-			}
-			else{
+			
+			System.out.println(list);
+			
+			if (list == null || list.size() == 0) {
+				JsonUtils.sendJson(writer, -1, "暂无学生", null);
+			} else {
+				
 				JsonUtils.sendJson(writer, 200, "请求成功", list);
-				return;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			writer.flush();
 			writer.close();
 		}
-		
+
 	}
 	
 		
@@ -68,13 +72,15 @@ public class PositionController {
 	 * @return
 	 * @throws IOException 
 	 */
+	
+	@ResponseBody //将java对象转为json格式的数据
+	@CrossOrigin
 	@RequestMapping("/add")	
-	public void add(Position po) throws IOException
+	public void add(HttpServletRequest request,HttpServletResponse response) throws IOException
 	{
-	System.out.println("-------add()  === 保存添加页面的数据------》");
+	System.out.println("-------add()  === 进入Position保存添加页面的数据------》");
 	
 	
-	HttpServletRequest request =HttpServletUtils.getrequest();
 	
 	 String p_name = request.getParameter("p_name");
 	 String p_nature =request.getParameter("p_nature");
@@ -84,27 +90,11 @@ public class PositionController {
 	 String s_id = request.getParameter("s_id");
 	 String c_id = request.getParameter("c_id");
 	 
+	 Position po = new Position();
 	 
 	 
-	 po.setP_name(p_name);
+	
 	 
-	 po.setP_nature(p_nature);
-	 
-	 po.setP_strattime(p_strattime);
-	 
-	 po.setP_review(p_review);
-	 
-	 po.setE_id(Integer.parseInt(e_id));
-	 
-	 po.setS_id(Integer.parseInt(s_id));
-	 
-	 po.setC_id(Integer.parseInt(c_id));
-	 
-	 System.out.println(p_name);
-	 positionService.save(po);
-	 System.out.println(p_name+"hou ");
-	 
-	 return;	
 }	
 //	
 	

@@ -8,6 +8,8 @@
 	<mappers>
 		<mapper class="com.rj.bd.student.dao.StudentMapper"/>
 		<mapper class="com.rj.bd.position.dao.PositionMapper"/>
+		<mapper class="com.rj.bd.admin.dao.AdminMapper"/>
+		<mapper class="com.rj.bd.enterprise.dao.EnterpriseMapper"/>
 	</mappers>
 	
 </configuration>  

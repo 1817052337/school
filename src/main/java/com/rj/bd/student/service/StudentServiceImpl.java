@@ -19,9 +19,9 @@ public class StudentServiceImpl implements IStudentService {
 	private StudentMapper studentMapper;
 
 	//查询所有
-	public List<Student> findAll() {
-		return studentMapper.fiandAll();
-	}
+//	public List<Student> findAll() {
+//		return studentMapper.fiandAll();
+//	}
 	
 	//保存
 

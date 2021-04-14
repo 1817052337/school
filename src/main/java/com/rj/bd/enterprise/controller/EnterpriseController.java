@@ -48,9 +48,10 @@ public class EnterpriseController {
 		map.addAttribute("path", path);
 
 		//
-		for (Enterprise stu : list) {
-			System.out.println(
-					stu.getS_id() + "/t" + stu.getS_name() + "/t" + stu.getS_school() + "/t" + stu.getS_phone());
+		
+		
+		for (Enterprise e : list) {
+			System.out.println(e.getE_id()+"/t"+e.getE_filename()+"/t"+e.getE_filepath()+e.getE_name());
 		}
 
 		return "Enterprise_list_fk";

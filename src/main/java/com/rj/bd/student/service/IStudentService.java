@@ -12,7 +12,7 @@ import com.rj.bd.student.entity.Student;
 public interface IStudentService {
 
 	//fk查询所有
-	public List<Student>  findAll();
+//	public List<Student>  findAll();
 	
 	
 	//查询全部

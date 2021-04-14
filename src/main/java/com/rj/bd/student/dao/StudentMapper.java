@@ -20,8 +20,8 @@ import com.rj.bd.student.entity.Student;
 public interface StudentMapper {
 
 	//查询全部数据
-	@Select("  select * from student   ")
-	public List<Student> fiandAll();
+//	@Select("  select * from student   ")
+//	public List<Student> fiandAll();
 
 	//添加
 	@Insert("insert into student (s_id,s_name,s_school,s_age,s_sex,s_phone,s_address) values (#{s_id},#{s_name}"
